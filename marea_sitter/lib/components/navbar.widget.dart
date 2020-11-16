@@ -6,9 +6,37 @@ class NavBar extends StatefulWidget {
   _NavBarState createState() => _NavBarState();
 }
 
+String rotaAtual;
+
 class _NavBarState extends State<NavBar> {
+  List<ListTile> getLists() {
+    List<ListTile> listTile = List<ListTile>();
+
+    AppRoutes()
+        .getAll()
+        .where((element) => element != rotaAtual)
+        .forEach((val) {
+          listTile.add(
+            ListTile(
+              trailing: Icon(Icons.details),
+              title: Text(
+                val,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+              ),
+              onTap: () {
+                Navigator.of(context).pushReplacementNamed(val);
+              },
+            ),
+          );
+    });
+
+    return listTile;
+  }
+
   @override
   Widget build(BuildContext context) {
+    rotaAtual = ModalRoute.of(context).settings.name;
+
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -22,26 +50,7 @@ class _NavBarState extends State<NavBar> {
               ),
             ),
           ),
-          ListTile(
-            trailing: Icon(Icons.details),
-            title: Text(
-              'versões',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
-            ),
-            onTap: () {
-              Navigator.of(context).pushNamed(AppRoutes.HOME);
-            },
-          ),
-          ListTile(
-            trailing: Icon(Icons.details),
-            title: Text(
-              'comportamentos',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
-            ),
-            onTap: () {
-              Navigator.of(context).pushNamed(AppRoutes.BEHAVIOR_LIST);
-            },
-          )
+          ...getLists()
         ],
       ),
     );

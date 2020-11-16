@@ -46,9 +46,13 @@ class VersionCard extends StatelessWidget {
                             FlatButton(
                               onPressed: () {
                                 VersionRepository().deleteVersion(version.id);
+                                
                                 Navigator.of(context).pop();
+                                Navigator.of(context).pushReplacementNamed(AppRoutes.HOME);
+                                
                               },
                               child: Text('Sim'),
+                              
                             )
                           ],
                         ));

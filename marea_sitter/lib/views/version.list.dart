@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:marea_sitter/components/navbar.widget.dart';
 import 'package:marea_sitter/components/versions.card.dart';
@@ -9,8 +10,23 @@ class VersionList extends StatefulWidget {
   _VersionListState createState() => _VersionListState();
 }
 
+Future<Null> _handleRefresh() async {
+  await getData();
+}
+
+getData() async {
+  var list = await VersionRepository().getAllVersions();
+  _streamController.add(list);
+}
+
+final _streamController = StreamController<List<Version>>.broadcast();
+
 class _VersionListState extends State<VersionList> {
-  var list = VersionRepository().getAllVersions();
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +37,11 @@ class _VersionListState extends State<VersionList> {
         centerTitle: true,
         actions: <Widget>[
           IconButton(
+            tooltip: 'Refresh',
+            icon: Icon(Icons.refresh),
+            onPressed: _handleRefresh,
+          ),
+          IconButton(
             icon: Icon(Icons.add),
             onPressed: () {
               Navigator.of(context)
@@ -29,8 +50,8 @@ class _VersionListState extends State<VersionList> {
           ),
         ],
       ),
-      body: FutureBuilder(
-          future: list,
+      body: StreamBuilder(
+          stream: _streamController.stream,
           builder: (ctx, snp) {
             if (snp.hasData) {
               return buildListView(snp.data);
@@ -46,11 +67,14 @@ class _VersionListState extends State<VersionList> {
   }
 }
 
-ListView buildListView(List<Version> versions) {
-  return ListView.builder(
-    itemCount: versions == null ? 0 : versions.length,
-    itemBuilder: (BuildContext ctx, int index) {
-      return VersionCard(versions[index]);
-    },
+buildListView(List<Version> versions) {
+  return RefreshIndicator(
+    onRefresh: _handleRefresh,
+    child: ListView.builder(
+      itemCount: versions == null ? 0 : versions.length,
+      itemBuilder: (BuildContext ctx, int index) {
+        return VersionCard(versions[index]);
+      },
+    ),
   );
 }
