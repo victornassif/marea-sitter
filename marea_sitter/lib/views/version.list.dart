@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:marea_sitter/components/navbar.widget.dart';
-import 'package:marea_sitter/components/versions.card.dart';
+import 'package:marea_sitter/components/versionstile.widget.dart';
 import 'package:marea_sitter/models/version.model.dart';
 import 'package:marea_sitter/repository/version.repository.dart';
 
@@ -73,7 +73,7 @@ buildListView(List<Version> versions) {
     child: ListView.builder(
       itemCount: versions == null ? 0 : versions.length,
       itemBuilder: (BuildContext ctx, int index) {
-        return VersionCard(versions[index]);
+        return VersionTile(versions[index]);
       },
     ),
   );

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:marea_sitter/components/behavior.card.dart';
+import 'package:marea_sitter/components/behaviorcard.widget.dart';
 import 'package:marea_sitter/components/navbar.widget.dart';
 import 'package:marea_sitter/models/behavior.model.dart';
 import 'package:marea_sitter/repository/behavior.repository.dart';

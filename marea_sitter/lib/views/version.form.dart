@@ -31,20 +31,17 @@ class VersionForm extends StatelessWidget {
               var isValid = _formKey.currentState.validate();
               if (isValid) {
                 _formKey.currentState.save();
-
                 if (version.id != null && version.id != 0) {
                   VersionRepository().updateVersion(Version(
-                    description: _formData['description'],
-                    title: _formData['title'],
-                    id: version.id
-                  ));
+                      description: _formData['description'],
+                      title: _formData['title'],
+                      id: version.id));
                 } else
                   VersionRepository().createVersion(
                     Version(
                         title: _formData['title'],
                         description: _formData['description']),
                   );
-
                 Navigator.of(context).pop();
               }
             },

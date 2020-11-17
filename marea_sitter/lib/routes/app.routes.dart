@@ -1,13 +1,24 @@
-class AppRoutes{
-  static const HOME = '/';
+class AppRoutes {
+  static const VERSION_LIST = '/version-list';
   static const VERSION_FORM = '/version-form';
   static const BEHAVIOR_FORM = '/behavior-form';
   static const BEHAVIOR_LIST = '/behavior-list';
+  static const HOME = '/';
 
-  List<String> getAll (){
-    List<String> list = List<String>();
-    list.add(HOME);
-    list.add(BEHAVIOR_LIST);
-    return list;
-  } 
+  List<KeyValueRoute> listRoutes;
+
+  List<KeyValueRoute> getAll() {
+    listRoutes = List<KeyValueRoute>();
+    listRoutes.add(KeyValueRoute(route: '/', name: 'fábrica'));
+    listRoutes.add(KeyValueRoute(route: '/version-list', name: 'versões'));
+    listRoutes.add(KeyValueRoute(route: '/behavior-list', name: 'comportamentos'));
+    return listRoutes;
+  }
+}
+
+class KeyValueRoute {
+  String name;
+  String route;
+
+  KeyValueRoute({this.name, this.route});
 }

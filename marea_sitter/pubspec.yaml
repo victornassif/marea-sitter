@@ -34,7 +34,7 @@ dev_dependencies:
     sdk: flutter
   http:
   provider:
-
+  carousel_slider: ^2.3.1
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

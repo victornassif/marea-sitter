@@ -14,17 +14,17 @@ class _NavBarState extends State<NavBar> {
 
     AppRoutes()
         .getAll()
-        .where((element) => element != rotaAtual)
+        .where((element) => element.route != rotaAtual)
         .forEach((val) {
           listTile.add(
             ListTile(
               trailing: Icon(Icons.details),
               title: Text(
-                val,
+                val.name,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
               ),
               onTap: () {
-                Navigator.of(context).pushReplacementNamed(val);
+                Navigator.of(context).pushReplacementNamed(val.route);
               },
             ),
           );

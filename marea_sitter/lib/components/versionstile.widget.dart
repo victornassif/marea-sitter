@@ -3,10 +3,10 @@ import 'package:marea_sitter/models/version.model.dart';
 import 'package:marea_sitter/repository/version.repository.dart';
 import 'package:marea_sitter/routes/app.routes.dart';
 
-class VersionCard extends StatelessWidget {
+class VersionTile extends StatelessWidget {
   final Version version;
 
-  const VersionCard(this.version);
+  const VersionTile(this.version);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class VersionCard extends StatelessWidget {
               color: Colors.orange,
               onPressed: () {
                 Navigator.of(context).pushNamed(
-                  AppRoutes.VERSION_FORM,
+                  AppRoutes.VERSION_FORM[0],
                   arguments: version,
                 );
               },
@@ -48,7 +48,7 @@ class VersionCard extends StatelessWidget {
                                 VersionRepository().deleteVersion(version.id);
                                 
                                 Navigator.of(context).pop();
-                                Navigator.of(context).pushReplacementNamed(AppRoutes.HOME);
+                                Navigator.of(context).pushReplacementNamed(AppRoutes.VERSION_LIST[0]);
                                 
                               },
                               child: Text('Sim'),
