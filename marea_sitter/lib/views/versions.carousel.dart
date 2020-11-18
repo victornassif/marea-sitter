@@ -18,7 +18,7 @@ class VersionCarousel extends StatelessWidget {
           future: VersionRepository().getAllVersions(),
           builder: (ctx, snp) {
             if (snp.hasData) {
-              return carousel(snp.data);
+              return carousel(snp.data, context);
             } else {
               return Center(
                 child: CircularProgressIndicator(
@@ -31,23 +31,33 @@ class VersionCarousel extends StatelessWidget {
   }
 }
 
-Widget carousel(List<Version> versions) {
+Widget carousel(List<Version> versions, context) {
   final List<Widget> slides = versions
-      .map((item) => Container(
-            margin: EdgeInsets.all(5.0),
-            child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(12.0)),
-                child: Stack(
-                  children: <Widget>[
-                    Container(
-                      color:
-                          Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
-                              .withOpacity(1.0),
-                      height: 700,
-                    )
-                  ],
-                )),
-          ))
+      .map(
+        (item) => Container(
+          margin: EdgeInsets.fromLTRB(
+              MediaQuery.of(context).size.width * 0.02,
+              MediaQuery.of(context).size.height * 0.07,
+              MediaQuery.of(context).size.width * 0.02,
+              MediaQuery.of(context).size.height * 0.07),
+          child: ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(12.0)),
+            child: Container(
+              width: 1000,
+              height: 1000,
+              color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
+                  .withOpacity(1.0),
+              child: Column(
+                children: [
+                  Text('iae'),
+                  Text('iae'),
+                  Text('iae'),
+                ],
+              ),
+            ),
+          ),
+        ),
+      )
       .toList();
 
   return Container(
@@ -56,9 +66,47 @@ Widget carousel(List<Version> versions) {
         autoPlay: false,
         aspectRatio: 2.0,
         enlargeCenterPage: true,
+        height: MediaQuery.of(context).size.height * 0.85,
         enlargeStrategy: CenterPageEnlargeStrategy.height,
       ),
       items: slides,
     ),
   );
 }
+
+
+Card cardInfo() {
+    return Card(
+      clipBehavior: Clip.antiAlias,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(18.0),
+      ),
+      elevation: 0,
+      margin: new EdgeInsets.symmetric(
+        horizontal: 12.0,
+        vertical: 6.0,
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.black,
+        ),
+        child: Column(
+          children: <Widget>[
+            //titulo
+            Text(
+              'Teste',
+              style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
+            ),
+            //content
+            // Container(
+            //   margin: EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 30),
+            //   child: buildListViewInfo(info.conteudo),
+            // )
+          ],
+        ),
+      ),
+    );
+  }
