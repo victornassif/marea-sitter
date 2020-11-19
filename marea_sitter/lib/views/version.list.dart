@@ -33,7 +33,9 @@ class _VersionListState extends State<VersionList> {
     return Scaffold(
       drawer: NavBar(),
       appBar: AppBar(
-        title: Text('Versões de Robôs'),
+        backgroundColor: Colors.white,
+        iconTheme: IconThemeData(color: Colors.black),
+        title: Text('Versões de Robôs', style: TextStyle(color: Colors.black),),
         centerTitle: true,
         actions: <Widget>[
           IconButton(

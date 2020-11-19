@@ -3,13 +3,14 @@ class AppRoutes {
   static const VERSION_FORM = '/version-form';
   static const BEHAVIOR_FORM = '/behavior-form';
   static const BEHAVIOR_LIST = '/behavior-list';
-  static const HOME = '/';
+  static const FACTORY_FORM = '/factory-form';
+  static const FACTORY_CAROUSEL = '/';
 
   List<KeyValueRoute> listRoutes;
 
   List<KeyValueRoute> getAll() {
     listRoutes = List<KeyValueRoute>();
-    listRoutes.add(KeyValueRoute(route: '/', name: 'fábrica'));
+    listRoutes.add(KeyValueRoute(route: '/', name: 'fabricação'));
     listRoutes.add(KeyValueRoute(route: '/version-list', name: 'versões'));
     listRoutes.add(KeyValueRoute(route: '/behavior-list', name: 'comportamentos'));
     return listRoutes;

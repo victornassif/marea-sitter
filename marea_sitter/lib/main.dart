@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:marea_sitter/provider/versions.provider.dart';
 import 'package:marea_sitter/routes/app.routes.dart';
-import 'package:marea_sitter/views/versions.carousel.dart';
+import 'package:marea_sitter/views/factory.carousel.dart';
+import 'package:marea_sitter/views/factory.form.dart';
 import 'package:provider/provider.dart';
 import 'package:marea_sitter/views/behavior.form.dart';
 import 'package:marea_sitter/views/behavior.list.dart';
@@ -32,9 +33,10 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        initialRoute: AppRoutes.HOME,
+        initialRoute: AppRoutes.FACTORY_CAROUSEL,
         routes: {
-          AppRoutes.HOME: (_) => VersionCarousel(),
+          AppRoutes.FACTORY_CAROUSEL: (_) => FactoryCarousel(),
+          AppRoutes.FACTORY_FORM: (_) => FactoryForm(),
           AppRoutes.VERSION_LIST: (_) => VersionList(),
           AppRoutes.VERSION_FORM: (_) => VersionForm(),
           AppRoutes.BEHAVIOR_FORM: (_) => BehaviorForm(),

@@ -14,15 +14,17 @@ class BehaviorForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Behavior behavior =
+    final Behavior fabricacao =
         ModalRoute.of(context).settings.arguments as Behavior;
 
-    _loadFormData(behavior);
+    _loadFormData(fabricacao);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Comportamentos'),
+        title: Text('Comportamentos', style: TextStyle(color: Colors.black)),
         centerTitle: true,
+        backgroundColor: Colors.white,
+        iconTheme: IconThemeData(color: Colors.black),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.cloud_upload),
@@ -31,12 +33,11 @@ class BehaviorForm extends StatelessWidget {
               if (isValid) {
                 _formKey.currentState.save();
 
-                if (behavior.id != null && behavior.id != 0) {
+                if (fabricacao.id != null && fabricacao.id != 0) {
                   BehaviorRepository().updateBehavior(Behavior(
-                    description: _formData['description'],
-                    title: _formData['title'],
-                    id: behavior.id
-                  ));
+                      description: _formData['description'],
+                      title: _formData['title'],
+                      id: fabricacao.id));
                 } else
                   BehaviorRepository().createBehavior(
                     Behavior(

@@ -22,7 +22,9 @@ class VersionForm extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Versão de Robô'),
+        title: Text('Versão de Robô', style: TextStyle(color: Colors.black),),
+        backgroundColor: Colors.white,
+        iconTheme: IconThemeData(color: Colors.black),
         centerTitle: true,
         actions: <Widget>[
           IconButton(

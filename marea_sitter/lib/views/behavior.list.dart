@@ -17,8 +17,13 @@ class _BehaviorListState extends State<BehaviorList> {
     return Scaffold(
       drawer: NavBar(),
       appBar: AppBar(
-        title: Text('Comportamentos de Robôs'),
         centerTitle: true,
+        backgroundColor: Colors.white,
+        iconTheme: IconThemeData(color: Colors.black),
+        title: Text(
+          'Comportamentos',
+          style: TextStyle(color: Colors.black),
+        ),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.add),

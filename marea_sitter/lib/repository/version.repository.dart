@@ -7,8 +7,7 @@ const Map<String, String> API_HEADERS = {
   'Content-Type': 'application/json; charset=UTF-8'
 };
 
-class VersionRepository{
-  
+class VersionRepository {
   Future<Version> getVersion(int id) async {
     try {
       if (id != null) {
@@ -40,17 +39,14 @@ class VersionRepository{
     }
   }
 
-  
   Future<Version> createVersion(Version v) async {
     try {
       if (v != null) {
         final response = await http.post(
           '$API_URL_BASE/robotVersions',
           headers: API_HEADERS,
-          body: jsonEncode(<String, String>{
-            'title': v.title,
-            'description': v.description
-          }),
+          body: jsonEncode(
+              <String, String>{'title': v.title, 'description': v.description}),
         );
 
         if (response.statusCode == 201) {
@@ -65,7 +61,6 @@ class VersionRepository{
     return null;
   }
 
-  
   Future<Version> deleteVersion(int id) async {
     try {
       if (id != null) {
@@ -85,7 +80,6 @@ class VersionRepository{
     return null;
   }
 
-  
   Future<Version> updateVersion(Version v) async {
     try {
       if (v != null) {
@@ -98,10 +92,7 @@ class VersionRepository{
           }),
         );
         if (response.statusCode == 200) {
-          return Version.fromJson(
-            json.decode(
-              response.body)
-              );
+          return Version.fromJson(json.decode(response.body));
         } else {
           throw Exception('Failed to load Version');
         }

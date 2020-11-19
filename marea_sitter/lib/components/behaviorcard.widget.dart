@@ -22,7 +22,7 @@ class BehaviorCard extends StatelessWidget {
               color: Colors.orange,
               onPressed: () {
                 Navigator.of(context).pushNamed(
-                  AppRoutes.VERSION_FORM[0],
+                  AppRoutes.BEHAVIOR_FORM[0],
                   arguments: behavior,
                 );
               },
