@@ -4,6 +4,8 @@ import 'package:marea_sitter/components/navbar.widget.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:marea_sitter/models/version.model.dart';
 import 'package:marea_sitter/repository/version.repository.dart';
+import 'package:marea_sitter/views/factory.list.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 class FactoryCarousel extends StatelessWidget {
   @override
@@ -13,7 +15,7 @@ class FactoryCarousel extends StatelessWidget {
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: Colors.black),
         title: Text(
-          'Fabricação',
+          'fabricação',
           style: TextStyle(color: Colors.black),
         ),
         centerTitle: true,
@@ -48,14 +50,14 @@ Widget carousel(List<Version> versions, context) {
           child: ClipRRect(
             borderRadius: BorderRadius.all(Radius.circular(12.0)),
             child: Container(
-              width: 1000,
-              height: 1000,
+              width: MediaQuery.of(context).size.width * 0.8,
+              height: MediaQuery.of(context).size.height * 0.8,
               color: Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
                   .withOpacity(1.0),
               child: Column(
                 children: [
                   SizedBox(
-                    height: 20,
+                    height: MediaQuery.of(context).size.height * 0.04,
                   ),
                   Container(
                     width: 250,
@@ -87,7 +89,24 @@ Widget carousel(List<Version> versions, context) {
                     ),
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.25,
+                    height: MediaQuery.of(context).size.height * 0.10,
+                  ),
+                  CircularPercentIndicator(
+                    radius: 120.0,
+                    lineWidth: 13.0,
+                    animation: true,
+                    percent: item.percentual,
+                    center: Text(
+                      "70.0%",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 20.0),
+                    ),
+                    circularStrokeCap: CircularStrokeCap.round,
+                    progressColor: Colors.red,
+                    backgroundColor: Colors.white,
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.07,
                   ),
                   RaisedButton(
                     shape: RoundedRectangleBorder(
@@ -95,12 +114,33 @@ Widget carousel(List<Version> versions, context) {
                       side: BorderSide(color: Colors.black),
                     ),
                     onPressed: () {
-                      Navigator.of(context).pushNamed('/factory-form', arguments: item);
+                      Navigator.of(context)
+                          .pushNamed('/factory-form', arguments: item);
                     },
                     color: Colors.white,
                     textColor: Colors.black,
                     child: Text(
-                      "FABRICAR ROBÔS",
+                      "fabricar robôs",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ),
+                  RaisedButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18.0),
+                      side: BorderSide(color: Colors.black),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => FactoryList(version: item),
+                        ),
+                      );
+                    },
+                    color: Colors.white,
+                    textColor: Colors.black,
+                    child: Text(
+                      "consultar fabricações",
                       style: TextStyle(fontSize: 20),
                     ),
                   ),
@@ -122,40 +162,6 @@ Widget carousel(List<Version> versions, context) {
         enlargeStrategy: CenterPageEnlargeStrategy.height,
       ),
       items: slides,
-    ),
-  );
-}
-
-Card cardInfo() {
-  return Card(
-    clipBehavior: Clip.antiAlias,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(18.0),
-    ),
-    elevation: 0,
-    margin: new EdgeInsets.symmetric(
-      horizontal: 12.0,
-      vertical: 6.0,
-    ),
-    child: Container(
-      decoration: BoxDecoration(
-        color: Colors.black,
-      ),
-      child: Column(
-        children: <Widget>[
-          //titulo
-          Text(
-            'Teste',
-            style: TextStyle(
-                fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-          //content
-          // Container(
-          //   margin: EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 30),
-          //   child: buildListViewInfo(info.conteudo),
-          // )
-        ],
-      ),
     ),
   );
 }

@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:marea_sitter/components/navbar.widget.dart';
-import 'package:marea_sitter/components/versionstile.widget.dart';
+import 'package:marea_sitter/components/version.tile.widget.dart';
 import 'package:marea_sitter/models/version.model.dart';
 import 'package:marea_sitter/repository/version.repository.dart';
 
@@ -35,7 +35,10 @@ class _VersionListState extends State<VersionList> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: Colors.black),
-        title: Text('Versões de Robôs', style: TextStyle(color: Colors.black),),
+        title: Text(
+          'versões',
+          style: TextStyle(color: Colors.black),
+        ),
         centerTitle: true,
         actions: <Widget>[
           IconButton(
@@ -52,19 +55,22 @@ class _VersionListState extends State<VersionList> {
           ),
         ],
       ),
-      body: StreamBuilder(
-          stream: _streamController.stream,
-          builder: (ctx, snp) {
-            if (snp.hasData) {
-              return buildListView(snp.data);
-            } else {
-              return Center(
-                child: CircularProgressIndicator(
-                  backgroundColor: Colors.blue[100],
-                ),
-              );
-            }
-          }),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: StreamBuilder(
+            stream: _streamController.stream,
+            builder: (ctx, snp) {
+              if (snp.hasData) {
+                return buildListView(snp.data);
+              } else {
+                return Center(
+                  child: CircularProgressIndicator(
+                    backgroundColor: Colors.blue[100],
+                  ),
+                );
+              }
+            }),
+      ),
     );
   }
 }

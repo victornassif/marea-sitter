@@ -21,7 +21,7 @@ class BehaviorForm extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Comportamentos', style: TextStyle(color: Colors.black)),
+        title: Text('comportamento', style: TextStyle(color: Colors.black)),
         centerTitle: true,
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: Colors.black),

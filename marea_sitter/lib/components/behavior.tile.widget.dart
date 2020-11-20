@@ -1,41 +1,41 @@
 import 'package:flutter/material.dart';
-import 'package:marea_sitter/models/version.model.dart';
-import 'package:marea_sitter/repository/version.repository.dart';
+import 'package:marea_sitter/models/behavior.model.dart';
+import 'package:marea_sitter/repository/behavior.repository.dart';
 import 'package:marea_sitter/routes/app.routes.dart';
 
-class VersionTile extends StatelessWidget {
-  final Version version;
+class BehaviorTile extends StatelessWidget {
+  final Behavior behavior;
 
-  const VersionTile(this.version);
+  const BehaviorTile(this.behavior);
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(version.title),
-      subtitle: Text(version.description),
+      title: Text(behavior.title),
+      subtitle: Text(behavior.description),
       trailing: Container(
         width: 100,
         child: Row(
           children: <Widget>[
             IconButton(
               icon: Icon(Icons.edit),
-              color: Colors.orange,
+              color: Colors.black,
               onPressed: () {
                 Navigator.of(context).pushNamed(
-                  AppRoutes.VERSION_FORM[0],
-                  arguments: version,
+                  AppRoutes.BEHAVIOR_FORM,
+                  arguments: behavior,
                 );
               },
             ),
             IconButton(
               icon: Icon(Icons.delete),
-              color: Colors.red,
+              color: Colors.black,
               onPressed: () {
                 showDialog(
                     context: context,
                     builder: (ctx) => AlertDialog(
-                          title: Text('Excluir Versão'),
-                          content: Text('Confirma exclusão da Versão?'),
+                          title: Text('Excluir Comportamento'),
+                          content: Text('Confirma exclusão do Comportamento?'),
                           actions: [
                             FlatButton(
                               onPressed: () {
@@ -45,14 +45,11 @@ class VersionTile extends StatelessWidget {
                             ),
                             FlatButton(
                               onPressed: () {
-                                VersionRepository().deleteVersion(version.id);
-                                
+                                BehaviorRepository()
+                                    .deleteBehavior(behavior.id);
                                 Navigator.of(context).pop();
-                                Navigator.of(context).pushReplacementNamed(AppRoutes.VERSION_LIST[0]);
-                                
                               },
                               child: Text('Sim'),
-                              
                             )
                           ],
                         ));

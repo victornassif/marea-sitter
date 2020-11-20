@@ -18,7 +18,7 @@ class FactoryForm extends StatelessWidget {
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: Colors.black),
         title: Text(
-          'Fabricação',
+          'fabricação',
           style: TextStyle(color: Colors.black),
         ),
         centerTitle: true,
@@ -65,6 +65,7 @@ class FactoryForm extends StatelessWidget {
                 onSaved: (val) => fac.tempoConclusao = int.parse(val),
               ),
               TextFormField(
+                keyboardType: TextInputType.number,
                 decoration: InputDecoration(labelText: 'Quantidade robôs'),
                 validator: (value) {
                   final n = int.tryParse(value);

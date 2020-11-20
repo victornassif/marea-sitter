@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:marea_sitter/repository/factory.repository.dart';
 import '../models/version.model.dart';
 
 const API_URL_BASE = 'http://10.0.2.2:3000';
@@ -28,9 +29,29 @@ class VersionRepository {
     try {
       final response = await http.get('$API_URL_BASE/robotVersions');
       if (response.statusCode == 200) {
-        return (json.decode(response.body) as List)
+        var list = (json.decode(response.body) as List)
             .map((i) => Version.fromJson(i))
             .toList();
+
+        var listTratada = Future.wait(list.map((element) async {
+          var listFactory =
+              await FactoryRepository().getFactorysFromVersionId(element.id);
+
+          element.numFactoryConcluido = listFactory
+              .where((element) => !element.dataConclusao.isAfter(DateTime.now()))
+              .toList()
+              .length;
+
+          element.numFactoryPendente = listFactory
+              .where(
+                  (element) => element.dataConclusao.isAfter(DateTime.now()))
+              .toList()
+              .length;
+
+          return element;
+        }));
+
+        return listTratada;
       } else {
         throw Exception('Failed to load Version');
       }

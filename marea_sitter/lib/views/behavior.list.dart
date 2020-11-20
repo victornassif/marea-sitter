@@ -1,5 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:marea_sitter/components/behaviorcard.widget.dart';
+import 'package:marea_sitter/components/behavior.tile.widget.dart';
 import 'package:marea_sitter/components/navbar.widget.dart';
 import 'package:marea_sitter/models/behavior.model.dart';
 import 'package:marea_sitter/repository/behavior.repository.dart';
@@ -9,8 +11,23 @@ class BehaviorList extends StatefulWidget {
   _BehaviorListState createState() => _BehaviorListState();
 }
 
+Future<Null> _handleRefresh() async {
+  await getData();
+}
+
+getData() async {
+  var list = await BehaviorRepository().getAllBehaviors();
+  _streamController.add(list);
+}
+
+final _streamController = StreamController<List<Behavior>>.broadcast();
+
 class _BehaviorListState extends State<BehaviorList> {
-  var list = BehaviorRepository().getAllBehaviors();
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,10 +38,15 @@ class _BehaviorListState extends State<BehaviorList> {
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: Colors.black),
         title: Text(
-          'Comportamentos',
+          'comportamentos',
           style: TextStyle(color: Colors.black),
         ),
         actions: <Widget>[
+          IconButton(
+            tooltip: 'Refresh',
+            icon: Icon(Icons.refresh),
+            onPressed: _handleRefresh,
+          ),
           IconButton(
             icon: Icon(Icons.add),
             onPressed: () {
@@ -34,28 +56,34 @@ class _BehaviorListState extends State<BehaviorList> {
           ),
         ],
       ),
-      body: FutureBuilder(
-          future: list,
-          builder: (ctx, snp) {
-            if (snp.hasData) {
-              return buildListView(snp.data);
-            } else {
-              return Center(
-                child: CircularProgressIndicator(
-                  backgroundColor: Colors.blue[100],
-                ),
-              );
-            }
-          }),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: StreamBuilder(
+            stream: _streamController.stream,
+            builder: (ctx, snp) {
+              if (snp.hasData) {
+                return buildListView(snp.data);
+              } else {
+                return Center(
+                  child: CircularProgressIndicator(
+                    backgroundColor: Colors.blue[100],
+                  ),
+                );
+              }
+            }),
+      ),
     );
   }
 }
 
-ListView buildListView(List<Behavior> behaviors) {
-  return ListView.builder(
-    itemCount: behaviors == null ? 0 : behaviors.length,
-    itemBuilder: (BuildContext ctx, int index) {
-      return BehaviorCard(behaviors[index]);
-    },
+buildListView(List<Behavior> behaviors) {
+  return RefreshIndicator(
+    onRefresh: _handleRefresh,
+    child: ListView.builder(
+      itemCount: behaviors == null ? 0 : behaviors.length,
+      itemBuilder: (BuildContext ctx, int index) {
+        return BehaviorTile(behaviors[index]);
+      },
+    ),
   );
 }

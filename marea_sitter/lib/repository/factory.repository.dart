@@ -39,6 +39,21 @@ class FactoryRepository {
     }
   }
 
+  Future<List<Factory>> getFactorysFromVersionId(versionId) async {
+    try {
+      final response = await http.get('$API_URL_BASE/factoryes?versionId=$versionId');
+      if (response.statusCode == 200) {
+        return (json.decode(response.body) as List)
+            .map((i) => Factory.fromJson(i))
+            .toList();
+      } else {
+        throw Exception('Failed to load Factory');
+      }
+    } catch (error) {
+      throw Exception('Failed to load Factorys' + error);
+    }
+  }
+
   Future<Factory> createFactory(Factory v) async {
     try {
       if (v != null) {
@@ -46,7 +61,7 @@ class FactoryRepository {
           '$API_URL_BASE/factoryes',
           headers: API_HEADERS,
           body: jsonEncode(<String, dynamic>{
-            'versaoId': v.versaoId,
+            'versionId': v.versaoId,
             'tempoConclusao': v.tempoConclusao,
             'dataCriacao': DateTime.now().toString(),
             'quantidadeRobos': v.quantidadeRobos,
@@ -91,10 +106,10 @@ class FactoryRepository {
           '$API_URL_BASE/factoryes/${v.id}',
           headers: API_HEADERS,
           body: jsonEncode(<String, String>{
-            'versaoId': v.versaoId.toString(),
+            'versionId': v.versaoId.toString(),
             'tempoConclusao': v.tempoConclusao.toString(),
             'dataCriacao': v.dataCriacao.toString(),
-            'quantidadeRobos': v.quantidadeRobos.toString(),
+            'quantidadeRobos': v.quantidadeRobos.toString()
           }),
         );
         if (response.statusCode == 200) {

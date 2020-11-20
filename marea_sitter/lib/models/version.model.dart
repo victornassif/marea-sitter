@@ -3,13 +3,23 @@ class Version {
   final String title;
   final String description;
 
-  Version( {this.description, this.id, this.title});
+  int numFactoryPendente;
+  int numFactoryConcluido;
+
+  double get percentual {
+    if (numFactoryConcluido == 0) return 0;
+    if (numFactoryPendente == 0) return 1;
+
+    return (numFactoryConcluido *
+        100 /
+        (numFactoryPendente + numFactoryConcluido) /
+        100);
+  }
+
+  Version({this.description, this.id, this.title});
 
   factory Version.fromJson(Map<String, dynamic> json) {
     return Version(
-      id: json['id'],
-      title: json['title'],
-      description: json['description']
-    );
+        id: json['id'], title: json['title'], description: json['description']);
   }
 }

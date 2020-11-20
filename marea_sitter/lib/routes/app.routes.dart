@@ -4,6 +4,7 @@ class AppRoutes {
   static const BEHAVIOR_FORM = '/behavior-form';
   static const BEHAVIOR_LIST = '/behavior-list';
   static const FACTORY_FORM = '/factory-form';
+  static const FACTORY_LIST = '/factory-list';
   static const FACTORY_CAROUSEL = '/';
 
   List<KeyValueRoute> listRoutes;
