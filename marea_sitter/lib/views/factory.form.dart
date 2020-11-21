@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:marea_sitter/components/alwaysDisableFocus.widget.dart';
 import 'package:marea_sitter/models/factory.model.dart';
 import 'package:marea_sitter/models/version.model.dart';
 import 'package:marea_sitter/repository/factory.repository.dart';
@@ -81,9 +82,4 @@ class FactoryForm extends StatelessWidget {
       ),
     );
   }
-}
-
-class AlwaysDisabledFocusNode extends FocusNode {
-  @override
-  bool get hasFocus => false;
 }

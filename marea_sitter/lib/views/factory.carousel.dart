@@ -4,6 +4,7 @@ import 'package:marea_sitter/components/navbar.widget.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:marea_sitter/models/version.model.dart';
 import 'package:marea_sitter/repository/version.repository.dart';
+import 'package:marea_sitter/views/dispatch.form.dart';
 import 'package:marea_sitter/views/factory.list.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
@@ -46,7 +47,7 @@ Widget carousel(List<Version> versions, context) {
               MediaQuery.of(context).size.width * 0.02,
               MediaQuery.of(context).size.height * 0.03,
               MediaQuery.of(context).size.width * 0.02,
-              MediaQuery.of(context).size.height * 0.03),
+              MediaQuery.of(context).size.height * 0.01),
           child: ClipRRect(
             borderRadius: BorderRadius.all(Radius.circular(12.0)),
             child: Container(
@@ -89,7 +90,7 @@ Widget carousel(List<Version> versions, context) {
                     ),
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.10,
+                    height: MediaQuery.of(context).size.height * 0.05,
                   ),
                   CircularPercentIndicator(
                     radius: 120.0,
@@ -97,16 +98,28 @@ Widget carousel(List<Version> versions, context) {
                     animation: true,
                     percent: item.percentual,
                     center: Text(
-                      "70.0%",
+                      (item.percentual * 100).toStringAsFixed(0) + '%',
                       style: TextStyle(
                           fontWeight: FontWeight.bold, fontSize: 20.0),
                     ),
                     circularStrokeCap: CircularStrokeCap.round,
-                    progressColor: Colors.red,
+                    progressColor: Color(0xFF03fc07),
                     backgroundColor: Colors.white,
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.07,
+                    height: MediaQuery.of(context).size.height * 0.05,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 18),
+                    child: Text(
+                      (item.numFactoryConcluido).toString() +
+                          '/' +
+                          (item.quantidadeTotal).toString() +
+                          '' +
+                          ' remessas prontas',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 18.0),
+                    ),
                   ),
                   RaisedButton(
                     shape: RoundedRectangleBorder(
@@ -141,6 +154,26 @@ Widget carousel(List<Version> versions, context) {
                     textColor: Colors.black,
                     child: Text(
                       "consultar fabricações",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ),
+                  RaisedButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18.0),
+                      side: BorderSide(color: Colors.black),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DispatchForm(version: item),
+                        ),
+                      );
+                    },
+                    color: Colors.white,
+                    textColor: Colors.black,
+                    child: Text(
+                      "despachar remessa",
                       style: TextStyle(fontSize: 20),
                     ),
                   ),

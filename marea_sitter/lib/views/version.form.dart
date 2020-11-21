@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:marea_sitter/models/version.model.dart';
 import 'package:marea_sitter/repository/version.repository.dart';
-import 'package:marea_sitter/routes/app.routes.dart';
 
 class VersionForm extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
@@ -22,7 +21,10 @@ class VersionForm extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('versão', style: TextStyle(color: Colors.black),),
+        title: Text(
+          'versão',
+          style: TextStyle(color: Colors.black),
+        ),
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: Colors.black),
         centerTitle: true,

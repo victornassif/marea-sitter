@@ -5,6 +5,16 @@ class Version {
 
   int numFactoryPendente;
   int numFactoryConcluido;
+  int estoqueEnviado;
+  int estoqueFeito;
+
+  int get estoqueDisponivel {
+    return estoqueFeito - estoqueEnviado;
+  }
+
+  int get quantidadeTotal {
+    return numFactoryConcluido + numFactoryPendente;
+  }
 
   double get percentual {
     if (numFactoryConcluido == 0) return 0;

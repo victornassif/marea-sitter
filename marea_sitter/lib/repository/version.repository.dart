@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:marea_sitter/repository/dispatch.repository.dart';
 import 'package:marea_sitter/repository/factory.repository.dart';
 import '../models/version.model.dart';
 
@@ -12,7 +13,7 @@ class VersionRepository {
   Future<Version> getVersion(int id) async {
     try {
       if (id != null) {
-        final response = await http.get('$API_URL_BASE/robotVersions/$id');
+        final response = await http.get('$API_URL_BASE/versions/$id');
         if (response.statusCode == 200) {
           return Version.fromJson(json.decode(response.body));
         } else {
@@ -27,7 +28,7 @@ class VersionRepository {
 
   Future<List<Version>> getAllVersions() async {
     try {
-      final response = await http.get('$API_URL_BASE/robotVersions');
+      final response = await http.get('$API_URL_BASE/versions');
       if (response.statusCode == 200) {
         var list = (json.decode(response.body) as List)
             .map((i) => Version.fromJson(i))
@@ -38,19 +39,38 @@ class VersionRepository {
               await FactoryRepository().getFactorysFromVersionId(element.id);
 
           element.numFactoryConcluido = listFactory
-              .where((element) => !element.dataConclusao.isAfter(DateTime.now()))
+              .where(
+                  (element) => !element.dataConclusao.isAfter(DateTime.now()))
               .toList()
               .length;
 
-          element.numFactoryPendente = listFactory
+          element.estoqueFeito = 0;
+          listFactory
               .where(
-                  (element) => element.dataConclusao.isAfter(DateTime.now()))
+                  (element) => !element.dataConclusao.isAfter(DateTime.now()))
+              .toList()
+              .forEach((fac) {
+            element.estoqueFeito += fac.quantidadeRobos;
+          });
+
+          element.numFactoryPendente = listFactory
+              .where((element) => element.dataConclusao.isAfter(DateTime.now()))
               .toList()
               .length;
 
           return element;
         }));
 
+        Future.wait(list.map((element) async {
+          var listDispatches =
+              await DispatchRepository().getDispatchsFromVersionId(element.id);
+
+          element.estoqueEnviado = 0;
+          listDispatches.forEach(
+              (elementLi) => element.estoqueEnviado += elementLi.quantity);
+
+          return element;
+        }));
         return listTratada;
       } else {
         throw Exception('Failed to load Version');
@@ -64,7 +84,7 @@ class VersionRepository {
     try {
       if (v != null) {
         final response = await http.post(
-          '$API_URL_BASE/robotVersions',
+          '$API_URL_BASE/versions',
           headers: API_HEADERS,
           body: jsonEncode(
               <String, String>{'title': v.title, 'description': v.description}),
@@ -86,7 +106,7 @@ class VersionRepository {
     try {
       if (id != null) {
         final response = await http.delete(
-          '$API_URL_BASE/robotVersions/$id',
+          '$API_URL_BASE/versions/$id',
           headers: API_HEADERS,
         );
         if (response.statusCode == 200) {
@@ -105,7 +125,7 @@ class VersionRepository {
     try {
       if (v != null) {
         final response = await http.put(
-          '$API_URL_BASE/robotVersions/${v.id}',
+          '$API_URL_BASE/versions/${v.id}',
           headers: API_HEADERS,
           body: jsonEncode(<String, String>{
             'title': v.title,

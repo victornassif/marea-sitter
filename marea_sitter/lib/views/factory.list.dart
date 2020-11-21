@@ -6,7 +6,7 @@ import 'package:marea_sitter/models/version.model.dart';
 import 'package:marea_sitter/repository/factory.repository.dart';
 
 class FactoryList extends StatefulWidget {
-  Version version;
+  final Version version;
 
   FactoryList({this.version});
 

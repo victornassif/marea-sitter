@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:marea_sitter/routes/app.routes.dart';
+import 'package:marea_sitter/views/dispatch.form.dart';
 import 'package:marea_sitter/views/factory.carousel.dart';
 import 'package:marea_sitter/views/factory.form.dart';
 import 'package:marea_sitter/views/factory.list.dart';
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'ROBOT FACTORY',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
       routes: {
         AppRoutes.FACTORY_CAROUSEL: (_) => FactoryCarousel(),
         AppRoutes.FACTORY_FORM: (_) => FactoryForm(),
+        AppRoutes.DISPATCH_FORM: (_) => DispatchForm(),
         AppRoutes.FACTORY_LIST: (_) => FactoryList(),
         AppRoutes.VERSION_LIST: (_) => VersionList(),
         AppRoutes.VERSION_FORM: (_) => VersionForm(),
