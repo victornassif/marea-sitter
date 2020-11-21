@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:marea_sitter/components/navbar.widget.dart';
@@ -8,22 +9,50 @@ import 'package:marea_sitter/views/dispatch.form.dart';
 import 'package:marea_sitter/views/factory.list.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
-class FactoryCarousel extends StatelessWidget {
+class FactoryCarousel extends StatefulWidget {
+  @override
+  _FactoryCarouselState createState() => _FactoryCarouselState();
+}
+
+Future<Null> _handleRefresh() async {
+  await getData();
+}
+
+getData() async {
+  var list = await VersionRepository().getAllVersions();
+  _streamController.add(list);
+}
+
+final _streamController = StreamController<List<Version>>.broadcast();
+
+class _FactoryCarouselState extends State<FactoryCarousel> {
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        iconTheme: IconThemeData(color: Colors.black),
-        title: Text(
-          'fabricação',
-          style: TextStyle(color: Colors.black),
-        ),
-        centerTitle: true,
-      ),
+          backgroundColor: Colors.white,
+          iconTheme: IconThemeData(color: Colors.black),
+          title: Text(
+            'fabricação',
+            style: TextStyle(color: Colors.black),
+          ),
+          centerTitle: true,
+          actions: <Widget>[
+            IconButton(
+              tooltip: 'Refresh',
+              icon: Icon(Icons.refresh),
+              onPressed: _handleRefresh,
+            ),
+          ]),
       drawer: NavBar(),
-      body: FutureBuilder(
-          future: VersionRepository().getAllVersions(),
+      body: StreamBuilder(
+          stream: _streamController.stream,
           builder: (ctx, snp) {
             if (snp.hasData) {
               return carousel(snp.data, context);
@@ -162,13 +191,14 @@ Widget carousel(List<Version> versions, context) {
                       borderRadius: BorderRadius.circular(18.0),
                       side: BorderSide(color: Colors.black),
                     ),
-                    onPressed: () async{
-                      var versionAtualizada = await VersionRepository().getVersion(item.id);
+                    onPressed: () async {
+                      var versionAtualizada =
+                          await VersionRepository().getVersion(item.id);
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) {
-                           return DispatchForm(version: versionAtualizada);
+                            return DispatchForm(version: versionAtualizada);
                           },
                         ),
                       );
