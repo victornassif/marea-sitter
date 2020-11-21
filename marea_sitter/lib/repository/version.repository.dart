@@ -15,7 +15,40 @@ class VersionRepository {
       if (id != null) {
         final response = await http.get('$API_URL_BASE/versions/$id');
         if (response.statusCode == 200) {
-          return Version.fromJson(json.decode(response.body));
+          var res = Version.fromJson(json.decode(response.body));
+
+          var listFactory =
+              await FactoryRepository().getFactorysFromVersionId(res.id);
+
+          res.numFactoryConcluido = listFactory
+              .where(
+                  (element) => !element.dataConclusao.isAfter(DateTime.now()))
+              .toList()
+              .length;
+
+          res.estoqueFeito = 0;
+          listFactory
+              .where(
+                  (element) => !element.dataConclusao.isAfter(DateTime.now()))
+              .toList()
+              .forEach((fac) {
+            res.estoqueFeito += fac.quantidadeRobos;
+          });
+
+          res.numFactoryPendente = listFactory
+              .where((element) => element.dataConclusao.isAfter(DateTime.now()))
+              .toList()
+              .length;
+
+          var listDispatches =
+              await DispatchRepository().getDispatchsFromVersionId(res.id);
+
+          res.estoqueEnviado = 0;
+          listDispatches.forEach(
+              (elementLi) => res.estoqueEnviado += elementLi.quantity);
+
+
+          return res;
         } else {
           throw Exception('Failed to load Version');
         }

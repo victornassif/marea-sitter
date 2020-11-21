@@ -5,7 +5,7 @@ import 'package:marea_sitter/models/version.model.dart';
 import 'package:marea_sitter/repository/dispatch.repository.dart';
 
 class DispatchForm extends StatefulWidget {
-  final Version version;
+  Version version;
 
   DispatchForm({this.version});
 
@@ -81,7 +81,9 @@ class _DispatchFormState extends State<DispatchForm> {
                   dis.quantity = newRating.toInt();
                 },
                 label: qtd.toStringAsFixed(0),
-                divisions: widget.version.estoqueDisponivel,
+                divisions: widget.version.estoqueDisponivel == 0
+                    ? 1
+                    : widget.version.estoqueDisponivel,
                 min: 0,
                 max: widget.version.estoqueDisponivel.toDouble(),
               ),

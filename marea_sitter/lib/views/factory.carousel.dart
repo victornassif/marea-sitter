@@ -162,11 +162,14 @@ Widget carousel(List<Version> versions, context) {
                       borderRadius: BorderRadius.circular(18.0),
                       side: BorderSide(color: Colors.black),
                     ),
-                    onPressed: () {
+                    onPressed: () async{
+                      var versionAtualizada = await VersionRepository().getVersion(item.id);
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => DispatchForm(version: item),
+                          builder: (context) {
+                           return DispatchForm(version: versionAtualizada);
+                          },
                         ),
                       );
                     },
